@@ -52,4 +52,7 @@ public class Post {
     public void update(String content) {
         this.content = content;
     }
+    public void deletePost(){
+        instances.remove(id-1); //same reason
+    }
 }

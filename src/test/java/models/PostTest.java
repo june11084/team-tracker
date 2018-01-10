@@ -43,4 +43,12 @@ public class PostTest {
         assertEquals(formerDate, post.getCreatedAt());
         assertNotEquals(formerContent, post.getContent());
     }
+    @Test
+    public void deleteDeletesASpecificPost() throws Exception {
+        Post post = setupNewPost();
+        Post otherPost = new Post("How to pair successfully");
+        post.deletePost();
+        assertEquals(1, Post.getAll().size()); //one is left
+        assertEquals(Post.getAll().get(0).getId(), 2); //the one that was deleted has the id of 2. Why do we care?
+    }
 }
