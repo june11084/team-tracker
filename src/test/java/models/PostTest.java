@@ -44,6 +44,13 @@ public class PostTest {
     }
 
     @Test
+    public void Post_UpdatesTeam() throws Exception {
+      Post post = new Post("Day 1: Intro");
+      post.updateTeam("Day 2: objects");
+      assertEquals("Day 2: objects", post.getTeam());
+    }
+
+    @Test
     public void Post_getMember_toString() throws Exception {
       Post post = new Post("Day 1: Intro");
       String members ="john,christine,Lee,adam,dave";
@@ -51,21 +58,4 @@ public class PostTest {
       post.updateMember((ArrayList) membersList);
       assertEquals("john,christine,Lee,adam,dave", post.getMembers());
     }
-
-
-
-//    @Test
-//    public void updateChangesPostContent() throws Exception {
-//        Post post = setupNewPost();
-//        String formerContent = post.getContent();
-//        LocalDateTime formerDate = post.getCreatedAt();
-//        int formerId = post.getId();
-//
-//        post.update("Android: Day 40");
-//
-//        assertEquals(formerId, post.getId());
-//        assertEquals(formerDate, post.getCreatedAt());
-//        assertNotEquals(formerContent, post.getContent());
-//    }
-
 }

@@ -66,7 +66,7 @@ public class App {
             Map<String, Object> model = new HashMap<>();
             String newTeam = req.queryParams("team");
             String newMember = req.queryParams("members");
-            List<String> membersList = new ArrayList<>(Arrays.asList(newMember.split(" , ")));
+            List<String> membersList = new ArrayList<>(Arrays.asList(newMember.split(",")));
             int idOfPostToEdit = Integer.parseInt(req.params("id"));
             Post editPost = Post.findById(idOfPostToEdit);
             editPost.updateTeam(newTeam);

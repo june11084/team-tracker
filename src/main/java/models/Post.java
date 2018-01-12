@@ -27,6 +27,9 @@ public class Post {
         memberString = memberString.replaceAll("[\\[\\]]", "");
         return memberString;
     }
+    public static Post findById(int id){
+        return instances.get(id-1);
+    }
 
     public static ArrayList<Post> getAll(){
         return instances;
@@ -42,10 +45,6 @@ public class Post {
 
     public int getId() {
         return id;
-    }
-
-    public static Post findById(int id){
-        return instances.get(id-1);
     }
 
     public void updateTeam(String teamName) {
