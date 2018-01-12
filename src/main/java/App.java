@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import models.Post;
 import spark.ModelAndView;
@@ -8,7 +6,7 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 import static spark.Spark.*;
 
 public class App {
-    public static void main(String[] args) { //type “psvm + tab” to autocreate this :)
+    public static void main(String[] args) {
         staticFileLocation("/public");
 
        //get: show new post form
@@ -20,9 +18,11 @@ public class App {
         //post: process new post form
         post("/posts/new", (request, response) -> { //URL to make new post on POST route
             Map<String, Object> model = new HashMap<>();
-
-            String content = request.queryParams("content");
-            Post newPost = new Post(content);
+            String team = request.queryParams("team");
+            String members = request.queryParams("members");
+            List<String> membersList = new ArrayList<>(Arrays.asList(members.split(" , ")));
+            Post newPost = new Post(team);
+            newPost.updateMember((ArrayList) membersList);
             model.put("post", newPost);
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
@@ -64,23 +64,15 @@ public class App {
         //post: process a form to update a post
         post("/posts/:id/update", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            String newContent = req.queryParams("content");
+            String newTeam = req.queryParams("team");
+            String newMember = req.queryParams("members");
+            List<String> membersList = new ArrayList<>(Arrays.asList(newMember.split(" , ")));
             int idOfPostToEdit = Integer.parseInt(req.params("id"));
             Post editPost = Post.findById(idOfPostToEdit);
-            editPost.update(newContent); //don’t forget me
+            editPost.updateTeam(newTeam);
+            editPost.updateMember((ArrayList) membersList);
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
-
-        //get: delete an individual post
-        get("/posts/:id/delete", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            int idOfPostToDelete = Integer.parseInt(req.params("id")); //pull id - must match route segment
-            Post deletePost = Post.findById(idOfPostToDelete); //use it to find post
-            deletePost.deletePost();
-            return new ModelAndView(model, "success.hbs");
-        }, new HandlebarsTemplateEngine());
-
-
 
     }
 }

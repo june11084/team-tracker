@@ -3,26 +3,29 @@ package models;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-/**
- * Created by Guest on 1/10/18.
- */
 public class Post {
-    private String content;
+    private String team;
+    private ArrayList<String> members;
     private static ArrayList<Post> instances = new ArrayList<>();
-    private boolean published;
     private LocalDateTime createdAt;
     private int id;
 
-    public Post (String content){
-        this.content = content;
-        this.published = false;
+    public Post (String team){
+        this.team = team;
+        members = new ArrayList<>();
         this.createdAt = LocalDateTime.now();
         instances.add(this);
         this.id = instances.size();
     }
 
-    public String getContent() {
-        return content;
+    public String getTeam() {
+        return team;
+    }
+
+    public String getMembers() {
+        String memberString = members.toString();
+        memberString = memberString.replaceAll("[\\[\\]]", "");
+        return memberString;
     }
 
     public static ArrayList<Post> getAll(){
@@ -31,10 +34,6 @@ public class Post {
 
     public static void clearAllPosts(){
         instances.clear();
-    }
-
-    public boolean getPublished(){
-        return this.published;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -46,13 +45,14 @@ public class Post {
     }
 
     public static Post findById(int id){
-        return instances.get(id-1); //why minus 1? See if you can figure it out.
+        return instances.get(id-1);
     }
 
-    public void update(String content) {
-        this.content = content;
+    public void updateTeam(String teamName) {
+        this.team = teamName;
     }
-    public void deletePost(){
-        instances.remove(id-1); //same reason
+
+    public void updateMember(ArrayList member) {
+        members = member;
     }
 }
