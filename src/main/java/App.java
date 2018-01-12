@@ -9,6 +9,12 @@ public class App {
     public static void main(String[] args) {
         staticFileLocation("/public");
 
+        //get: show about
+        get("/posts/about", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            return new ModelAndView(model, "about.hbs");
+        }, new HandlebarsTemplateEngine());
+
        //get: show new team form
         get("/posts/new", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
