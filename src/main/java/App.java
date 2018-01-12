@@ -9,13 +9,13 @@ public class App {
     public static void main(String[] args) {
         staticFileLocation("/public");
 
-       //get: show new post form
+       //get: show new team form
         get("/posts/new", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());
 
-        //post: process new post form
+        //post: process new team form
         post("/posts/new", (request, response) -> { //URL to make new post on POST route
             Map<String, Object> model = new HashMap<>();
             String team = request.queryParams("team");
@@ -27,7 +27,7 @@ public class App {
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
 
-        //get: show all posts
+        //get: show all teams
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             ArrayList<Post> posts = Post.getAll();
@@ -36,14 +36,14 @@ public class App {
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
-        //get: delete all posts
+        //get: delete all teams
         get("/posts/delete", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             Post.clearAllPosts();
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
 
-        //get: show an individual post
+        //get: show an individual team in detail
         get("/posts/:id", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfPostToFind = Integer.parseInt(req.params("id")); //pull id - must match route segment
@@ -52,7 +52,7 @@ public class App {
             return new ModelAndView(model, "post-detail.hbs"); //individual post page.
         }, new HandlebarsTemplateEngine());
 
-        //get: show a form to update a post
+        //get: show a form to update a team
         get("/posts/:id/update", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfPostToEdit = Integer.parseInt(req.params("id"));
@@ -61,7 +61,7 @@ public class App {
             return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());
 
-        //post: process a form to update a post
+        //post: process a form to update a team
         post("/posts/:id/update", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             String newTeam = req.queryParams("team");

@@ -19,10 +19,19 @@ public class PostTest {
     }
 
     @Test
-    public void Post_InstantiatesWithContent_true() throws Exception {
+    public void Post_GetsCorrectTeam() throws Exception {
         Post post = new Post("Day 1: Intro");
         assertEquals("Day 1: Intro", post.getTeam());
     }
+
+  @Test
+  public void Post_ClearsAllInstances() throws Exception {
+    Post post = new Post("Day 1: Intro");
+    Post post1 = new Post("Day 2: Intro");
+    Post post2 = new Post("Day 3: Intro");
+    Post.clearAllPosts();
+    assertEquals(0, Post.getAll().size() );
+  }
 
   @Test
   public void Post_getMember_toString() throws Exception {
