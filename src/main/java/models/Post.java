@@ -5,13 +5,15 @@ import java.util.ArrayList;
 
 public class Post {
     private String team;
+    private String password;
     private ArrayList<String> members;
     private static ArrayList<Post> instances = new ArrayList<>();
     private LocalDateTime createdAt;
     private int id;
 
-    public Post (String team){
+    public Post (String team,String password){
         this.team = team;
+        this.password = password;
         members = new ArrayList<>();
         this.createdAt = LocalDateTime.now();
         instances.add(this);
@@ -45,6 +47,10 @@ public class Post {
 
     public int getId() {
         return id;
+    }
+
+    public String getPassWord() {
+        return password;
     }
 
     public void updateTeam(String teamName) {

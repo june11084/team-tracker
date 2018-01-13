@@ -26,8 +26,9 @@ public class App {
             Map<String, Object> model = new HashMap<>();
             String team = request.queryParams("team");
             String members = request.queryParams("members");
+            String password = request.queryParams("password");
             List<String> membersList = new ArrayList<>(Arrays.asList(members.split(" , ")));
-            Post newPost = new Post(team);
+            Post newPost = new Post(team,password);
             newPost.updateMember((ArrayList) membersList);
             model.put("post", newPost);
             return new ModelAndView(model, "success.hbs");
@@ -72,12 +73,17 @@ public class App {
             Map<String, Object> model = new HashMap<>();
             String newTeam = req.queryParams("team");
             String newMember = req.queryParams("members");
+            String password = req.queryParams("password");
             List<String> membersList = new ArrayList<>(Arrays.asList(newMember.split(",")));
             int idOfPostToEdit = Integer.parseInt(req.params("id"));
             Post editPost = Post.findById(idOfPostToEdit);
-            editPost.updateTeam(newTeam);
-            editPost.updateMember((ArrayList) membersList);
-            return new ModelAndView(model, "success.hbs");
+            if(password.equals(editPost.getPassWord())) {
+                editPost.updateTeam(newTeam);
+                editPost.updateMember((ArrayList) membersList);
+                return new ModelAndView(model, "success.hbs");
+            }else{
+                return new ModelAndView(model, "error.hbs");
+            }
         }, new HandlebarsTemplateEngine());
 
     }
