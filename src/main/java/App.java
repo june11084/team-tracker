@@ -1,6 +1,8 @@
 import java.util.*;
 
+import dao.Sql2oTeamDao;
 import models.Post;
+import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import static spark.Spark.*;
@@ -8,6 +10,9 @@ import static spark.Spark.*;
 public class App {
     public static void main(String[] args) {
         staticFileLocation("/public");
+        String connectionString = "jdbc:h2:~/todolist.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
+        Sql2o sql2o = new Sql2o(connectionString, "", "");
+        Sql2oTeamDao teamDao = new Sql2oTeamDao(sql2o);
 
         //get: show about
         get("/posts/about", (req, res) -> {
@@ -28,7 +33,7 @@ public class App {
             String members = request.queryParams("members");
             String password = request.queryParams("password");
             List<String> membersList = new ArrayList<>(Arrays.asList(members.split(" , ")));
-            Post newPost = new Post(team,password);
+            Post newPost = new Post(team,password, 1);
             newPost.updateMember((ArrayList) membersList);
             model.put("post", newPost);
             return new ModelAndView(model, "success.hbs");
