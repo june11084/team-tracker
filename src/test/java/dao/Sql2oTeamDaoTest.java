@@ -53,8 +53,8 @@ public class Sql2oTeamDaoTest {
 
   @Test
   public void addedPostAreReturnedFromgetAll() throws Exception {
-    Post task = setupNewTask();
-    teamDao.add(task);
+    Post post = setupNewTask();
+    teamDao.add(post);
     assertEquals(1, teamDao.getAll().size());
   }
 
@@ -73,35 +73,35 @@ public class Sql2oTeamDaoTest {
     teamDao.add(post);
 
     teamDao.update(post.getId(),"brush the cat", (ArrayList) membersList,"asdf",1);
-    Post updatedTask = teamDao.findById(post.getId()); //why do I need to refind this?
-    assertNotEquals(team, updatedTask.getTeam());
+    Post updatedPost = teamDao.findById(post.getId()); //why do I need to refind this?
+    assertNotEquals(team, updatedPost.getTeam());
   }
 
   @Test
   public void deleteByIdDeletesCorrectPost() throws Exception {
-    Post task = setupNewTask();
-    teamDao.add(task);
-    teamDao.deleteById(task.getId());
+    Post post = setupNewTask();
+    teamDao.add(post);
+    teamDao.deleteById(post.getId());
     assertEquals(0, teamDao.getAll().size());
   }
 
   @Test
   public void clearAllClearsAll() throws Exception {
-    Post task = setupNewTask();
+    Post post = setupNewTask();
     Post otherTask = new Post("team b", "asdf",1);
-    teamDao.add(task);
+    teamDao.add(post);
     teamDao.add(otherTask);
     int daoSize = teamDao.getAll().size();
     teamDao.clearAllPosts();
-    assertTrue(daoSize > 0 && daoSize > teamDao.getAll().size()); //this is a little overcomplicated, but illustrates well how we might use `assertTrue` in a different way.
+    assertTrue(daoSize > 0 && daoSize > teamDao.getAll().size());
   }
 
   @Test
   public void StateIdIsReturnedCorrectly() throws Exception {
-    Post task = setupNewTask();
-    int originalStateId = task.getStateId();
-    teamDao.add(task);
-    assertEquals(originalStateId, teamDao.findById(task.getId()).getStateId());
+    Post post = setupNewTask();
+    int originalStateId = post.getStateId();
+    teamDao.add(post);
+    assertEquals(originalStateId, teamDao.findById(post.getId()).getStateId());
   }
 
 

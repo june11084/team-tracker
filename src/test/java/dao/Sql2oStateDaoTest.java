@@ -52,7 +52,7 @@ public class Sql2oStateDaoTest {
   }
 
   @Test
-  public void addedCategorysAreReturnedFromgetAll() throws Exception {
+  public void addedCategorysAreReturnedFromGetAll() throws Exception {
     State state = setupNewCategory();
     stateDao.add(state);
     assertEquals(1, stateDao.getAll().size());
@@ -98,17 +98,14 @@ public class Sql2oStateDaoTest {
     State state = setupNewCategory();
     stateDao.add(state);
     int stateId = state.getId();
-    Post newPost = new Post("team a ", "asdf",1);
-    Post otherPost = new Post("team b ", "asdf",2);
-    Post thirdPost = new Post("team c", "asdf",3);
+    Post newPost = new Post("team a ", "asdf",stateId);
+    Post otherPost = new Post("team b ", "asdf",stateId);
+    Post thirdPost = new Post("team c", "asdf",stateId);
     teamDao.add(newPost);
-    teamDao.add(otherPost); //we are not adding task 3 so we can test things precisely.
+    teamDao.add(otherPost);
 
-
-    assertTrue(stateDao.getAllTasksByCategory(stateId).size() == 1);
-    assertTrue(stateDao.getAllTasksByCategory(stateId).contains(newPost));
-    assertTrue(stateDao.getAllTasksByCategory(stateId).contains(otherPost));
-    assertFalse(stateDao.getAllTasksByCategory(stateId).contains(thirdPost)); //things are accurate!
+    assertTrue(stateDao.getAllTasksByCategory(stateId).size() == 2);
+    assertFalse(stateDao.getAllTasksByCategory(stateId).contains(thirdPost));
   }
 
   public State setupNewCategory(){
