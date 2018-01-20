@@ -8,11 +8,11 @@ import java.util.List;
 public interface StateDao {
 
   //create
-  void add (State category);
+  void add (State state);
 
   //read
   List<State> getAll();
-  List<Post> getAllTasksByCategory(int categoryId);
+  List<Post> getAllTasksByState(int stateId);
 
   State findById(int id);
 
@@ -21,6 +21,6 @@ public interface StateDao {
 
   //delete
   void deleteById(int id);
-  void clearAllCategories();
+  void clearAllStates();
 
 }

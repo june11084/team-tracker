@@ -74,7 +74,7 @@ public class Sql2oStateDao implements StateDao {
   }
 
   @Override
-  public void clearAllCategories() {
+  public void clearAllStates() {
     String sql = "DELETE from states"; //raw sql
     try (Connection con = sql2o.open()) {
       con.createQuery(sql)
@@ -85,7 +85,7 @@ public class Sql2oStateDao implements StateDao {
   }
 
   @Override
-  public List<Post> getAllTasksByCategory(int stateId) {
+  public List<Post> getAllTasksByState(int stateId) {
     try(Connection con = sql2o.open()){
       return con.createQuery("SELECT * FROM teams WHERE stateId = :stateId")
               .addParameter("stateId", stateId)

@@ -1,6 +1,7 @@
 import java.util.*;
 
 import dao.Sql2oTeamDao;
+import dao.TeamDao;
 import models.Post;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
@@ -35,6 +36,7 @@ public class App {
             List<String> membersList = new ArrayList<>(Arrays.asList(members.split(" , ")));
             Post newPost = new Post(team,password, 1);
             newPost.updateMember((ArrayList) membersList);
+            teamDao.add(newPost);
             model.put("post", newPost);
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
@@ -42,16 +44,15 @@ public class App {
         //get: show all teams
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            ArrayList<Post> posts = Post.getAll();
+            ArrayList<Post> posts = (ArrayList<Post>) teamDao.getAll();
             model.put("posts", posts);
-
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
         //get: delete all teams
         get("/posts/delete", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            Post.clearAllPosts();
+            teamDao.clearAllPosts();
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
 

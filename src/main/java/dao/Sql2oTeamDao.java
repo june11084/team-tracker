@@ -21,15 +21,16 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
     String sql = "INSERT INTO teams (team, members, password, stateId) VALUES (:team, :members, :password, :stateId)"; //raw sql
     try(Connection con = sql2o.open()){ //try to open a connection
       int id = (int) con.createQuery(sql) //make a new variable
-              .addParameter("team", team.getTeam())
-              .addParameter("members", team.getMembers())
-              .addParameter("password", team.getPassword())
-              .addParameter("stateId", team.getStateId())
-              .addColumnMapping("TEAM", "team")
-              .addColumnMapping("MEMBERS", "members")
-              .addColumnMapping("PASSWORD", "password")
-              .addColumnMapping("STATEID", "stateId")
-              .addColumnMapping("CREATEDAT", "createdAt")
+//              .addParameter("team", team.getTeam())
+//              .addParameter("members", team.getMembers())
+//              .addParameter("password", team.getPassword())
+//              .addParameter("stateId", team.getStateId())
+//              .addColumnMapping("TEAM", "team")
+//              .addColumnMapping("MEMBERS", "members")
+//              .addColumnMapping("PASSWORD", "password")
+//              .addColumnMapping("STATEID", "stateId")
+//              .addColumnMapping("CREATEDAT", "createdAt")
+              .bind(team)
               .executeUpdate() //run it all
               .getKey(); //int id is now the row number (row “key”) of db
       team.setId(id); //update object to set id now from database

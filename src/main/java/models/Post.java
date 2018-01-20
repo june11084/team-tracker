@@ -1,6 +1,5 @@
 package models;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -8,8 +7,6 @@ public class Post {
     private String team;
     private String password;
     private ArrayList<String> members;
-    private static ArrayList<Post> instances = new ArrayList<>();
-    private LocalDateTime createdAt;
     private int id;
     private int stateId;
 
@@ -17,9 +14,6 @@ public class Post {
         this.team = team;
         this.password = password;
         members = new ArrayList<>();
-        this.createdAt = LocalDateTime.now();
-        instances.add(this);
-        this.id = instances.size();
         this.stateId = stateId;
     }
 
@@ -43,21 +37,6 @@ public class Post {
         return memberString;
     }
 
-    public static Post findById(int id){
-        return instances.get(id-1);
-    }
-
-    public static ArrayList<Post> getAll(){
-        return instances;
-    }
-
-    public static void clearAllPosts(){
-        instances.clear();
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 
     public int getId() {
         return this.id;
@@ -88,13 +67,12 @@ public class Post {
                 stateId == post.stateId &&
                 Objects.equals(team, post.team) &&
                 Objects.equals(password, post.password) &&
-                Objects.equals(members, post.members) &&
-                Objects.equals(createdAt, post.createdAt);
+                Objects.equals(members, post.members);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(team, password, members, createdAt, id, stateId);
+        return Objects.hash(team, password, members, id, stateId);
     }
 }

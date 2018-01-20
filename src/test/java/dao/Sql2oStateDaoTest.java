@@ -36,35 +36,35 @@ public class Sql2oStateDaoTest {
   }
 
   @Test
-  public void addingCourseSetsId() throws Exception {
-    State state = setupNewCategory();
+  public void addingStatesSetsId() throws Exception {
+    State state = setupNewState();
     int originalCategoryId = state.getId();
     stateDao.add(state);
     assertNotEquals(originalCategoryId, state.getId());
   }
 
   @Test
-  public void existingCategorysCanBeFoundById() throws Exception {
-    State state = setupNewCategory();
+  public void existingStatesCanBeFoundById() throws Exception {
+    State state = setupNewState();
     stateDao.add(state);
     State foundState = stateDao.findById(state.getId());
     assertEquals(state, foundState);
   }
 
   @Test
-  public void addedCategorysAreReturnedFromGetAll() throws Exception {
-    State state = setupNewCategory();
+  public void addedStatesAreReturnedFromGetAll() throws Exception {
+    State state = setupNewState();
     stateDao.add(state);
     assertEquals(1, stateDao.getAll().size());
   }
 
   @Test
-  public void noCategorysReturnsEmptyList() throws Exception {
+  public void noStatesReturnsEmptyList() throws Exception {
     assertEquals(0, stateDao.getAll().size());
   }
 
   @Test
-  public void updateChangesCategoryContent() throws Exception {
+  public void updateChangesStateContent() throws Exception {
     String initialDescription = "Yardwork";
     State state = new State (initialDescription);
     stateDao.add(state);
@@ -75,8 +75,8 @@ public class Sql2oStateDaoTest {
   }
 
   @Test
-  public void deleteByIdDeletesCorrectCategory() throws Exception {
-    State state = setupNewCategory();
+  public void deleteByIdDeletesCorrectState() throws Exception {
+    State state = setupNewState();
     stateDao.add(state);
     stateDao.deleteById(state.getId());
     assertEquals(0, stateDao.getAll().size());
@@ -84,18 +84,18 @@ public class Sql2oStateDaoTest {
 
   @Test
   public void clearAllClearsAll() throws Exception {
-    State state = setupNewCategory();
+    State state = setupNewState();
     State otherState = new State("CT");
     stateDao.add(state);
     stateDao.add(otherState);
     int daoSize = stateDao.getAll().size();
-    stateDao.clearAllCategories();
+    stateDao.clearAllStates();
     assertTrue(daoSize > 0 && daoSize > stateDao.getAll().size());
   }
 
   @Test
-  public void getAllTasksByCategoryReturnsTasksCorrectly() throws Exception {
-    State state = setupNewCategory();
+  public void getAllTasksByStateReturnsTasksCorrectly() throws Exception {
+    State state = setupNewState();
     stateDao.add(state);
     int stateId = state.getId();
     Post newPost = new Post("team a ", "asdf",stateId);
@@ -104,11 +104,11 @@ public class Sql2oStateDaoTest {
     teamDao.add(newPost);
     teamDao.add(otherPost);
 
-    assertTrue(stateDao.getAllTasksByCategory(stateId).size() == 2);
-    assertFalse(stateDao.getAllTasksByCategory(stateId).contains(thirdPost));
+    assertTrue(stateDao.getAllTasksByState(stateId).size() == 2);
+    assertFalse(stateDao.getAllTasksByState(stateId).contains(thirdPost));
   }
 
-  public State setupNewCategory(){
+  public State setupNewState(){
     return new State("OR");
   }
 }
