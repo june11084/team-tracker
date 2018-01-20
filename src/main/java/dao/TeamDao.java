@@ -9,7 +9,7 @@ import java.util.List;
 public interface TeamDao {
 
   //create
-  void add (Post task);
+  void add (Post post);
   //read
   List<Post> getAll();
 
@@ -18,6 +18,6 @@ public interface TeamDao {
   void update(int id, String team, ArrayList<String> members, String password, int stateId);
   //delete
   void deleteById(int id);
-  void clearAllTasks();
+  void clearAllPosts();
 
 }

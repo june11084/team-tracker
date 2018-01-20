@@ -59,7 +59,7 @@ public class App {
         get("/posts/:id", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfPostToFind = Integer.parseInt(req.params("id")); //pull id - must match route segment
-            Post foundPost = Post.findById(idOfPostToFind); //use it to find post
+            Post foundPost = teamDao.findById(idOfPostToFind); //use it to find post
             model.put("post", foundPost); //add it to model for template to display
             return new ModelAndView(model, "post-detail.hbs"); //individual post page.
         }, new HandlebarsTemplateEngine());
@@ -68,7 +68,7 @@ public class App {
         get("/posts/:id/update", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfPostToEdit = Integer.parseInt(req.params("id"));
-            Post editPost = Post.findById(idOfPostToEdit);
+            Post editPost = teamDao.findById(idOfPostToEdit);
             model.put("editPost", editPost);
             return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());
@@ -81,7 +81,7 @@ public class App {
             String password = req.queryParams("password");
             List<String> membersList = new ArrayList<>(Arrays.asList(newMember.split(",")));
             int idOfPostToEdit = Integer.parseInt(req.params("id"));
-            Post editPost = Post.findById(idOfPostToEdit);
+            Post editPost = teamDao.findById(idOfPostToEdit);
             if(password.equals(editPost.getPassWord())) {
                 editPost.updateTeam(newTeam);
                 editPost.updateMember((ArrayList) membersList);

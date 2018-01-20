@@ -42,6 +42,7 @@ public class Post {
         memberString = memberString.replaceAll("[\\[\\]]", "");
         return memberString;
     }
+
     public static Post findById(int id){
         return instances.get(id-1);
     }
@@ -59,7 +60,7 @@ public class Post {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getPassWord() {

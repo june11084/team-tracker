@@ -5,7 +5,7 @@ id int PRIMARY KEY auto_increment,
 team VARCHAR,
 members ARRAY,
 password VARCHAR,
-statId INT,
+stateId INT,
 );
 
 CREATE TABLE IF NOT EXISTS states (
