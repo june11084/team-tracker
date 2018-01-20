@@ -19,7 +19,7 @@ public class Sql2oStateDao implements StateDao {
 
   @Override
   public void add(State state) {
-    String sql = "INSERT INTO categories (name) VALUES (:name)";
+    String sql = "INSERT INTO states (name) VALUES (:name)";
     try(Connection con = sql2o.open()){
       int id = (int) con.createQuery(sql)
               .bind(state)
@@ -34,7 +34,7 @@ public class Sql2oStateDao implements StateDao {
   @Override
   public List<State> getAll() {
     try(Connection con = sql2o.open()){
-      return con.createQuery("SELECT * FROM categories")
+      return con.createQuery("SELECT * FROM states")
               .executeAndFetch(State.class);
     }
   }
@@ -42,7 +42,7 @@ public class Sql2oStateDao implements StateDao {
   @Override
   public State findById(int id) {
     try(Connection con = sql2o.open()){
-      return con.createQuery("SELECT * FROM categories WHERE id = :id")
+      return con.createQuery("SELECT * FROM states WHERE id = :id")
               .addParameter("id", id)
               .executeAndFetchFirst(State.class);
     }
@@ -50,7 +50,7 @@ public class Sql2oStateDao implements StateDao {
 
   @Override
   public void update(int id, String newName){
-    String sql = "UPDATE categories SET name = :name WHERE id=:id";
+    String sql = "UPDATE states SET name = :name WHERE id=:id";
     try(Connection con = sql2o.open()){
       con.createQuery(sql)
               .addParameter("name", newName)
@@ -63,7 +63,7 @@ public class Sql2oStateDao implements StateDao {
 
   @Override
   public void deleteById(int id) {
-    String sql = "DELETE from categories WHERE id=:id"; //raw sql
+    String sql = "DELETE from states WHERE id=:id"; //raw sql
     try (Connection con = sql2o.open()) {
       con.createQuery(sql)
               .addParameter("id", id)
@@ -75,7 +75,7 @@ public class Sql2oStateDao implements StateDao {
 
   @Override
   public void clearAllCategories() {
-    String sql = "DELETE from categories"; //raw sql
+    String sql = "DELETE from states"; //raw sql
     try (Connection con = sql2o.open()) {
       con.createQuery(sql)
               .executeUpdate();
@@ -85,10 +85,10 @@ public class Sql2oStateDao implements StateDao {
   }
 
   @Override
-  public List<Post> getAllTasksByCategory(int categoryId) {
+  public List<Post> getAllTasksByCategory(int stateId) {
     try(Connection con = sql2o.open()){
-      return con.createQuery("SELECT * FROM tasks WHERE categoryId = :categoryId")
-              .addParameter("categoryId", categoryId)
+      return con.createQuery("SELECT * FROM teams WHERE stateId = :stateId")
+              .addParameter("stateId", stateId)
               .executeAndFetch(Post.class);
     }
   }
