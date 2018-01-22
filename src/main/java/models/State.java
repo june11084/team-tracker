@@ -3,7 +3,6 @@ package models;
 import java.util.Objects;
 
 public class State {
-
   private String name;
   private int id;
 

@@ -1,8 +1,10 @@
 import java.util.*;
 
+import dao.Sql2oStateDao;
 import dao.Sql2oTeamDao;
 import dao.TeamDao;
 import models.Post;
+import models.State;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -14,6 +16,7 @@ public class App {
         String connectionString = "jdbc:h2:~/todolist.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
         Sql2oTeamDao teamDao = new Sql2oTeamDao(sql2o);
+        Sql2oStateDao stateDao = new Sql2oStateDao(sql2o);
 
         //get: show about
         get("/posts/about", (req, res) -> {
@@ -21,8 +24,32 @@ public class App {
             return new ModelAndView(model, "about.hbs");
         }, new HandlebarsTemplateEngine());
 
-       //get: show new team form
-        get("/posts/new", (req, res) -> {
+       //get: show new state form
+        get("/states/new", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            return new ModelAndView(model, "state-form.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //post: process new team form
+        post("/states/new", (request, response) -> { //URL to make new post on POST route
+            Map<String, Object> model = new HashMap<>();
+            String state = request.queryParams("name");
+            State newPost = new State(state);
+            stateDao.add(newPost);
+            model.put("state", newPost);
+            return new ModelAndView(model, "success.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //get: show all states
+        get("/states", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            List<State> states = stateDao.getAll();
+            model.put("states", states);
+            return new ModelAndView(model, "states.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //get: show new team form
+        get("/states/:stateId/posts/new", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());

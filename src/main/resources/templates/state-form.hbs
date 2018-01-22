@@ -1,0 +1,17 @@
+{{#partial "content"}}
+    {{#if editPost}}
+        <h1>Edit this State</h1>
+        <form action="/states/{{editPost.id}}/update" method="post">
+            <label for="name">state:</label>
+            <input id="name" name="name" type="text" value="{{editPost.team}}">
+    {{else}}
+            <h1>Add a new State</h1>
+        <form action="/states/new" method="post">
+            <label for="name">Team</label>
+            <input id="name" name="name" type="text">
+    {{/if}}
+        <button type="submit" class="btn btn-default">Go!</button>
+    </form>
+{{/partial}}
+
+{{> layout.hbs}}

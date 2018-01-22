@@ -1,0 +1,17 @@
+{{#partial "content"}}
+    {{#if states}}
+        {{#each states}}
+            <div class="well">
+                <h3>{{name}}</h3>
+                <p><a href="posts/{{id}}">view/add team members</a></p>
+            </div>
+        {{/each}}
+    {{else}}
+        <div class="well">
+            <h3>Sorry, no states have been added</h3>
+            <p><a href="/states/new">Add a new one</a></p>
+        </div>
+    {{/if}}
+{{/partial}}
+
+{{> layout.hbs}}
