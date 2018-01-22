@@ -33,9 +33,7 @@ public class App {
             String team = request.queryParams("team");
             String members = request.queryParams("members");
             String password = request.queryParams("password");
-            List<String> membersList = new ArrayList<>(Arrays.asList(members.split(" , ")));
-            Post newPost = new Post(team,password, 1);
-            newPost.updateMember((ArrayList) membersList);
+            Post newPost = new Post(team,members,password, 1);
             teamDao.add(newPost);
             model.put("post", newPost);
             return new ModelAndView(model, "success.hbs");
@@ -80,12 +78,10 @@ public class App {
             String newTeam = req.queryParams("team");
             String newMember = req.queryParams("members");
             String password = req.queryParams("password");
-            List<String> membersList = new ArrayList<>(Arrays.asList(newMember.split(",")));
             int idOfPostToEdit = Integer.parseInt(req.params("id"));
             Post editPost = teamDao.findById(idOfPostToEdit);
             if(password.equals(editPost.getPassWord())) {
-                editPost.updateTeam(newTeam);
-                editPost.updateMember((ArrayList) membersList);
+                teamDao.update(idOfPostToEdit,newTeam,newMember,password,1);
                 return new ModelAndView(model, "success.hbs");
             }else{
                 return new ModelAndView(model, "error.hbs");

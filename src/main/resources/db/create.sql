@@ -1,9 +1,9 @@
 SET MODE PostgreSQL;
 
-CREATE TABLE IF NOT EXISTS teams (
+CREATE TABLE IF NOT EXISTS team (
 id int PRIMARY KEY auto_increment,
 team VARCHAR,
-members ARRAY,
+members VARCHAR,
 password VARCHAR,
 stateId INT,
 );

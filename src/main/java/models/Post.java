@@ -6,14 +6,14 @@ import java.util.Objects;
 public class Post {
     private String team;
     private String password;
-    private ArrayList<String> members;
+    private String members;
     private int id;
     private int stateId;
 
-    public Post (String team,String password,int stateId){
+    public Post (String team,String members,String password,int stateId){
         this.team = team;
         this.password = password;
-        members = new ArrayList<>();
+        this.members = members;
         this.stateId = stateId;
     }
 
@@ -27,7 +27,7 @@ public class Post {
         return password;
     }
 
-    public ArrayList<String> getMembers() {
+    public String getMembers() {
         return members;
     }
 
@@ -54,7 +54,7 @@ public class Post {
         this.id = id;
     }
 
-    public void updateMember(ArrayList member) {
+    public void updateMember(String member) {
         members = member;
     }
 

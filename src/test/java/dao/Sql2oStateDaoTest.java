@@ -21,7 +21,7 @@ public class Sql2oStateDaoTest {
   private Connection conn;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
     Sql2o sql2o = new Sql2o(connectionString, "", "");
     stateDao = new Sql2oStateDao(sql2o);
@@ -31,12 +31,12 @@ public class Sql2oStateDaoTest {
   }
 
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     conn.close();
   }
 
   @Test
-  public void addingStatesSetsId() throws Exception {
+  public void addingStatesSetsId() {
     State state = setupNewState();
     int originalCategoryId = state.getId();
     stateDao.add(state);
@@ -44,7 +44,7 @@ public class Sql2oStateDaoTest {
   }
 
   @Test
-  public void existingStatesCanBeFoundById() throws Exception {
+  public void existingStatesCanBeFoundById() {
     State state = setupNewState();
     stateDao.add(state);
     State foundState = stateDao.findById(state.getId());
@@ -52,19 +52,19 @@ public class Sql2oStateDaoTest {
   }
 
   @Test
-  public void addedStatesAreReturnedFromGetAll() throws Exception {
+  public void addedStatesAreReturnedFromGetAll() {
     State state = setupNewState();
     stateDao.add(state);
     assertEquals(1, stateDao.getAll().size());
   }
 
   @Test
-  public void noStatesReturnsEmptyList() throws Exception {
+  public void noStatesReturnsEmptyList() {
     assertEquals(0, stateDao.getAll().size());
   }
 
   @Test
-  public void updateChangesStateContent() throws Exception {
+  public void updateChangesStateContent() {
     String initialDescription = "Yardwork";
     State state = new State (initialDescription);
     stateDao.add(state);
@@ -75,7 +75,7 @@ public class Sql2oStateDaoTest {
   }
 
   @Test
-  public void deleteByIdDeletesCorrectState() throws Exception {
+  public void deleteByIdDeletesCorrectState() {
     State state = setupNewState();
     stateDao.add(state);
     stateDao.deleteById(state.getId());
@@ -83,7 +83,7 @@ public class Sql2oStateDaoTest {
   }
 
   @Test
-  public void clearAllClearsAll() throws Exception {
+  public void clearAllClearsAll() {
     State state = setupNewState();
     State otherState = new State("CT");
     stateDao.add(state);
@@ -94,18 +94,18 @@ public class Sql2oStateDaoTest {
   }
 
   @Test
-  public void getAllTasksByStateReturnsTasksCorrectly() throws Exception {
+  public void getAllTasksByStateReturnsTasksCorrectly() {
     State state = setupNewState();
     stateDao.add(state);
     int stateId = state.getId();
-    Post newPost = new Post("team a ", "asdf",stateId);
-    Post otherPost = new Post("team b ", "asdf",stateId);
-    Post thirdPost = new Post("team c", "asdf",stateId);
+    Post newPost = new Post("team a ", "asdf","asdf",stateId);
+    Post otherPost = new Post("team b ", "asdf","asdf",stateId);
+    Post thirdPost = new Post("team c",  "asdf","asdf",stateId);
     teamDao.add(newPost);
     teamDao.add(otherPost);
 
-    assertTrue(stateDao.getAllTasksByState(stateId).size() == 2);
-    assertFalse(stateDao.getAllTasksByState(stateId).contains(thirdPost));
+    assertTrue(stateDao.getAllTeamsByState(stateId).size() == 2);
+    assertFalse(stateDao.getAllTeamsByState(stateId).contains(thirdPost));
   }
 
   public State setupNewState(){

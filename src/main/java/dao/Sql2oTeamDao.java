@@ -17,20 +17,18 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
 
   @Override
   public void add(Post team) {
-
-    String sql = "INSERT INTO teams (team, members, password, stateId) VALUES (:team, :members, :password, :stateId)"; //raw sql
+    String sql = "INSERT INTO team (team, members, password, stateId) VALUES (:team, :members, :password, :stateId)"; //raw sql
     try(Connection con = sql2o.open()){ //try to open a connection
       int id = (int) con.createQuery(sql) //make a new variable
-//              .addParameter("team", team.getTeam())
-//              .addParameter("members", team.getMembers())
-//              .addParameter("password", team.getPassword())
-//              .addParameter("stateId", team.getStateId())
-//              .addColumnMapping("TEAM", "team")
-//              .addColumnMapping("MEMBERS", "members")
-//              .addColumnMapping("PASSWORD", "password")
-//              .addColumnMapping("STATEID", "stateId")
-//              .addColumnMapping("CREATEDAT", "createdAt")
-              .bind(team)
+              .addParameter("team", team.getTeam())
+              .addParameter("members", team.getMembers())
+              .addParameter("password", team.getPassword())
+              .addParameter("stateId", team.getStateId())
+              .addColumnMapping("TEAM", "team")
+              .addColumnMapping("MEMBERS", "members")
+              .addColumnMapping("PASSWORD", "password")
+              .addColumnMapping("STATEID", "stateId")
+              .addColumnMapping("CREATEDAT", "createdAt")
               .executeUpdate() //run it all
               .getKey(); //int id is now the row number (row “key”) of db
       team.setId(id); //update object to set id now from database
@@ -42,7 +40,7 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
   @Override
   public List<Post> getAll() {
     try(Connection con = sql2o.open()){
-      return con.createQuery("SELECT * FROM teams") //raw sql
+      return con.createQuery("SELECT * FROM team") //raw sql
               .executeAndFetch(Post.class); //fetch a list
     }
   }
@@ -50,15 +48,15 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
   @Override
   public Post findById(int id) {
     try(Connection con = sql2o.open()){
-      return con.createQuery("SELECT * FROM teams WHERE id = :id")
+      return con.createQuery("SELECT * FROM team WHERE id = :id")
               .addParameter("id", id) //key/value pair, key must match above
               .executeAndFetchFirst(Post.class); //fetch an individual item
     }
   }
 
   @Override
-  public void update(int id, String team, ArrayList<String> members, String password, int stateId){
-    String sql = "UPDATE teams SET (team, members, password, stateId) = (:team, :members, :password, :stateId) WHERE id=:id"; //raw sql
+  public void update(int id, String team, String members, String password, int stateId){
+    String sql = "UPDATE team SET (team, members, password, stateId) = (:team, :members, :password, :stateId) WHERE id=:id"; //raw sql
     try(Connection con = sql2o.open()){
       con.createQuery(sql)
               .addParameter("team", team)
@@ -74,7 +72,7 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
 
   @Override
   public void deleteById(int id) {
-    String sql = "DELETE from teams WHERE id=:id";
+    String sql = "DELETE from team WHERE id=:id";
     try (Connection con = sql2o.open()) {
       con.createQuery(sql)
               .addParameter("id", id)
@@ -86,7 +84,7 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
 
   @Override
   public void clearAllPosts() {
-    String sql = "DELETE from teams";
+    String sql = "DELETE from team";
     try (Connection con = sql2o.open()) {
       con.createQuery(sql).executeUpdate();
     } catch (Sql2oException ex){
