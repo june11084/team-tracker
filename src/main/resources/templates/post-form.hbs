@@ -10,7 +10,7 @@
             <input id="password" name="password" type="password" value="{{editPost.password}}">
     {{else}}
         <h1>Add a new Team</h1>
-        <form action="/posts/new" method="post">
+        <form action="/states/{{state.id}}/posts/new" method="post">
             <label for="team">Team</label>
             <input id="team" name="team" type="text">
             <label for="members">Members(seperated by ","):</label>

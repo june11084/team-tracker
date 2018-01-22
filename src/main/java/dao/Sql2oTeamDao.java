@@ -23,12 +23,11 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
               .addParameter("team", team.getTeam())
               .addParameter("members", team.getMembers())
               .addParameter("password", team.getPassword())
-              .addParameter("stateId", team.getStateId())
+              .addParameter("stateId", team.getId())
               .addColumnMapping("TEAM", "team")
               .addColumnMapping("MEMBERS", "members")
               .addColumnMapping("PASSWORD", "password")
               .addColumnMapping("STATEID", "stateId")
-              .addColumnMapping("CREATEDAT", "createdAt")
               .executeUpdate() //run it all
               .getKey(); //int id is now the row number (row “key”) of db
       team.setId(id); //update object to set id now from database

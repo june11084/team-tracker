@@ -30,13 +30,13 @@ public class App {
             return new ModelAndView(model, "state-form.hbs");
         }, new HandlebarsTemplateEngine());
 
-        //post: process new team form
+        //post: process new state form
         post("/states/new", (request, response) -> { //URL to make new post on POST route
             Map<String, Object> model = new HashMap<>();
             String state = request.queryParams("name");
             State newPost = new State(state);
             stateDao.add(newPost);
-            model.put("state", newPost);
+            model.put("states", newPost);
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -55,12 +55,15 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         //post: process new team form
-        post("/posts/new", (request, response) -> { //URL to make new post on POST route
+        post("/states/:stateId/posts/new", (request, response) -> { //URL to make new post on POST route
             Map<String, Object> model = new HashMap<>();
+            int stateId = Integer.parseInt(request.params("stateId"));
+            State state = stateDao.findById(stateId);
+            model.put("state",state);
             String team = request.queryParams("team");
             String members = request.queryParams("members");
-            String password = request.queryParams("password");
-            Post newPost = new Post(team,members,password, 1);
+            String password = request.queryParams("password");;
+            Post newPost = new Post(team,members,password, stateId);
             teamDao.add(newPost);
             model.put("post", newPost);
             return new ModelAndView(model, "success.hbs");
