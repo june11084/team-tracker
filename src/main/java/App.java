@@ -80,8 +80,9 @@ public class App {
             String password = req.queryParams("password");
             int idOfPostToEdit = Integer.parseInt(req.params("id"));
             Post editPost = teamDao.findById(idOfPostToEdit);
+            int stateId = editPost.getId();
             if(password.equals(editPost.getPassWord())) {
-                teamDao.update(idOfPostToEdit,newTeam,newMember,password,1);
+                teamDao.update(idOfPostToEdit,newTeam,newMember,password,stateId);
                 return new ModelAndView(model, "success.hbs");
             }else{
                 return new ModelAndView(model, "error.hbs");

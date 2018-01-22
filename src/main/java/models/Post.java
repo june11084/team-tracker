@@ -1,6 +1,4 @@
 package models;
-
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Post {
@@ -30,13 +28,6 @@ public class Post {
     public String getMembers() {
         return members;
     }
-
-    public String getMemberToString() {
-        String memberString = members.toString();
-        memberString = memberString.replaceAll("[\\[\\]]", "");
-        return memberString;
-    }
-
 
     public int getId() {
         return this.id;
