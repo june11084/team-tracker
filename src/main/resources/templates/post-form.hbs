@@ -1,13 +1,14 @@
 {{#partial "content"}}
     {{#if editPost}}
         <h1>Edit this Team</h1>
-        <form action="/posts/{{editPost.id}}/update" method="post">
+        <form action="/states/{{state.id}}/posts/{{editPost.id}}/update" method="post">
             <label for="team">Team:</label>
             <input id="team" name="team" type="text" value="{{editPost.team}}">
             <label for="members">Members(seperated by ","):</label>
             <input id="members" name="members" type="text" value="{{editPost.members}}">
             <label for="password">Password:</label>
             <input id="password" name="password" type="password" value="{{editPost.password}}">
+            <button type="submit" class="btn btn-default">Edit!</button>
     {{else}}
         <h1>Add a new Team</h1>
         <form action="/states/{{state.id}}/posts/new" method="post">
@@ -17,8 +18,8 @@
             <input id="members" name="members" type="text">
             <label for="password">Password:</label>
             <input id="password" name="password" type="password">
+            <button type="submit" class="btn btn-default">Go!</button>
     {{/if}}
-        <button type="submit" class="btn btn-default">Go!</button>
     </form>
 {{/partial}}
 

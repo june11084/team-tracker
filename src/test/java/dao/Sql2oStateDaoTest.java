@@ -104,8 +104,8 @@ public class Sql2oStateDaoTest {
     teamDao.add(newPost);
     teamDao.add(otherPost);
 
-    assertTrue(stateDao.getAllTeamsByState(stateId).size() == 2);
-    assertFalse(stateDao.getAllTeamsByState(stateId).contains(thirdPost));
+    assertTrue(teamDao.getAllTeamsByState(stateId).size() == 2);
+    assertFalse(teamDao.getAllTeamsByState(stateId).contains(thirdPost));
   }
 
   public State setupNewState(){

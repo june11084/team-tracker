@@ -5,14 +5,15 @@
     <ul>
         {{#if teams}}
             {{#each teams}}
-                <p>{{team}}</p>
+                <p>Team: {{team}}</p>
+                <p>Members: {{members}}</p>
+                <a href="/states/{{state.id}}/posts/{{id}}/update">Edit this team</a>
             {{/each}}
         {{else}}
             <p>No Members!</p>
         {{/if}}
     </ul>
     <a href="/states/{{state.id}}/posts/new" class="button">+ Add Team</a>
-    <a href="/posts/{{state.id}}/update">Edit this team</a>
     </p>
 {{/partial}}
 {{> layout.hbs}}

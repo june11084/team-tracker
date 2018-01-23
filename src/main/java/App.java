@@ -86,6 +86,7 @@ public class App {
         get("/posts/delete", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             teamDao.clearAllPosts();
+            stateDao.ClearAllStates();
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -110,25 +111,30 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         //get: show a form to update a team
-        get("/posts/:id/update", (req, res) -> {
+        get("/states/:stateId/posts/:teamId/update", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            int idOfPostToEdit = Integer.parseInt(req.params("id"));
+            int idOfStateToEdit = parseInt(req.params("stateId"));
+            State editState = stateDao.findById(idOfStateToEdit);
+            model.put("state", editState);
+            int idOfPostToEdit = Integer.parseInt(req.params("teamId"));
             Post editPost = teamDao.findById(idOfPostToEdit);
             model.put("editPost", editPost);
             return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());
 
         //post: process a form to update a team
-        post("/posts/:id/update", (req, res) -> {
+        post("/states/:stateId/posts/:teamId/update", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             String newTeam = req.queryParams("team");
             String newMember = req.queryParams("members");
             String password = req.queryParams("password");
-            int idOfPostToEdit = Integer.parseInt(req.params("id"));
+            int idOfStateToEdit = parseInt(req.params("stateId"));
+            State editState = stateDao.findById(idOfStateToEdit);
+            model.put("state", editState);
+            int idOfPostToEdit = Integer.parseInt(req.params("teamId"));
             Post editPost = teamDao.findById(idOfPostToEdit);
-            int stateId = editPost.getId();
             if(password.equals(editPost.getPassWord())) {
-                teamDao.update(idOfPostToEdit,newTeam,newMember,password,stateId);
+                teamDao.update(idOfPostToEdit,newTeam,newMember);
                 return new ModelAndView(model, "success.hbs");
             }else{
                 return new ModelAndView(model, "error.hbs");

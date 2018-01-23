@@ -56,14 +56,12 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
   }
 
   @Override
-  public void update(int id, String team, String members, String password, int stateId){
-    String sql = "UPDATE team SET (team, members, password, stateId) = (:team, :members, :password, :stateId) WHERE id=:id"; //raw sql
+  public void update(int id, String team, String members){
+    String sql = "UPDATE team SET (team, members) = (:team, :members) WHERE id=:id"; //raw sql
     try(Connection con = sql2o.open()){
       con.createQuery(sql)
               .addParameter("team", team)
               .addParameter("members", members)
-              .addParameter("password", password)
-              .addParameter("stateId", stateId)
               .addParameter("id", id)
               .executeUpdate();
     } catch (Sql2oException ex) {

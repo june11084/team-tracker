@@ -17,7 +17,7 @@ public interface TeamDao {
 
   Post findById(int id);
   //update
-  void update(int id, String team, String members, String password, int stateId);
+  void update(int id, String team, String members);
   //delete
   void deleteById(int id);
   void clearAllPosts();
