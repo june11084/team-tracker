@@ -1,16 +1,17 @@
 {{#partial "content"}}
     <p>State:</p>
     <p>{{state.name}}</p>
-    <p>Teams:</p>
     <ul>
         {{#if teams}}
             {{#each teams}}
+                <p></p>
                 <p>Team: {{team}}</p>
                 <p>Members: {{members}}</p>
                 <a href="/states/{{state.id}}/posts/{{id}}/update">Edit this team</a>
+                <a href="/states/{{state.id}}/posts/{{id}}/delete">Delete this team</a>
             {{/each}}
         {{else}}
-            <p>No Members!</p>
+            <p>No Teams!</p>
         {{/if}}
     </ul>
     <a href="/states/{{state.id}}/posts/new" class="button">+ Add Team</a>

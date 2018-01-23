@@ -2,7 +2,6 @@ import java.util.*;
 
 import dao.Sql2oStateDao;
 import dao.Sql2oTeamDao;
-import dao.TeamDao;
 import models.Post;
 import models.State;
 import org.sql2o.Sql2o;
@@ -77,16 +76,44 @@ public class App {
         //get: show all teams
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            ArrayList<Post> posts = (ArrayList<Post>) teamDao.getAll();
-            model.put("posts", posts);
-            return new ModelAndView(model, "index.hbs");
+            List<State> states = stateDao.getAll();
+            model.put("states", states);
+            return new ModelAndView(model, "states.hbs");
         }, new HandlebarsTemplateEngine());
 
-        //get: delete all teams
+        //get: delete all states and teams
         get("/posts/delete", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             teamDao.clearAllPosts();
-            stateDao.ClearAllStates();
+            stateDao.clearAllStates();
+            return new ModelAndView(model, "success.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //delete state by id and teams
+        get("/states/:stateId/delete", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfStateToDelete = parseInt(req.params("stateId"));
+
+            teamDao.deleteAllById(idOfStateToDelete);
+            stateDao.deleteById(idOfStateToDelete);
+
+            return new ModelAndView(model, "success.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //delete team by id
+        get("/states/:stateId/posts/:teamId/delete", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            int teamId = Integer.parseInt(req.params("teamId"));
+            teamDao.deleteById(teamId);
+
+            int idOfStateToFind = parseInt(req.params("stateId"));
+            State foundState = stateDao.findById(idOfStateToFind);
+            model.put("state", foundState);
+
+            List<Post> teams = teamDao.getAllTeamsByState(idOfStateToFind);
+            model.put("teams", teams);
+
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -98,16 +125,16 @@ public class App {
             model.put("state", foundState); //add it to model for template to display
             List<Post> teams = teamDao.getAllTeamsByState(idOfStateToFind);
             model.put("teams", teams);
-            return new ModelAndView(model, "state-detail.hbs"); //individual post page.
+            return new ModelAndView(model, "state-detail.hbs");
         }, new HandlebarsTemplateEngine());
 
         //get: show an individual team in detail
         get("/posts/:id", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            int idOfPostToFind = Integer.parseInt(req.params("id")); //pull id - must match route segment
-            Post foundPost = teamDao.findById(idOfPostToFind); //use it to find post
-            model.put("post", foundPost); //add it to model for template to display
-            return new ModelAndView(model, "post-detail.hbs"); //individual post page.
+            int idOfPostToFind = Integer.parseInt(req.params("id"));
+            Post foundPost = teamDao.findById(idOfPostToFind);
+            model.put("post", foundPost);
+            return new ModelAndView(model, "post-detail.hbs");
         }, new HandlebarsTemplateEngine());
 
         //get: show a form to update a team

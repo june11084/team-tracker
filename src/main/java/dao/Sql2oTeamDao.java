@@ -25,7 +25,7 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
               .getKey(); //int id is now the row number (row “key”) of db
       team.setId(id); //update object to set id now from database
     } catch (Sql2oException ex) {
-      System.out.println(ex); //oops we have an error!
+      System.out.println(ex);
     }
   }
 
@@ -72,6 +72,18 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
   @Override
   public void deleteById(int id) {
     String sql = "DELETE from team WHERE id=:id";
+    try (Connection con = sql2o.open()) {
+      con.createQuery(sql)
+              .addParameter("id", id)
+              .executeUpdate();
+    } catch (Sql2oException ex){
+      System.out.println(ex);
+    }
+  }
+
+  @Override
+  public void deleteAllById(int id) {
+    String sql = "DELETE * from team WHERE id=:id"; //raw sql
     try (Connection con = sql2o.open()) {
       con.createQuery(sql)
               .addParameter("id", id)

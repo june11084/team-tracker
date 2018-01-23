@@ -20,6 +20,7 @@ public interface TeamDao {
   void update(int id, String team, String members);
   //delete
   void deleteById(int id);
+  void deleteAllById(int id);
   void clearAllPosts();
 
 }
