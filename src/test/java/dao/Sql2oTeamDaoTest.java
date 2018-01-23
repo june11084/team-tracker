@@ -71,7 +71,7 @@ public class Sql2oTeamDaoTest {
     post.updateMember(members);
     teamDao.add(post);
 
-    teamDao.update(post.getId(),"brush the cat", members,"asdf",1);
+    teamDao.update(post.getId(),"brush the cat", members);
     Post updatedPost = teamDao.findById(post.getId()); //why do I need to refind this?
     assertNotEquals(team, updatedPost.getTeam());
   }
