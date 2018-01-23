@@ -20,21 +20,6 @@
 
     <div class="col-md-12">
         {{#block "content"}}
-            {{#if states}}
-                {{#each states}}
-                    <div class="well">
-                        <h3>{{name}}</h3>
-                        <p><a href="states/{{id}}">view/add teams</a></p>
-                        <p><a href="states/{{id}}/delete">Delete this state</a></p>
-                        <p><a href="states/{{id}}/update">edit this state</a></p>
-                    </div>
-                {{/each}}
-            {{else}}
-                <div class="well">
-                    <h3>Sorry, no states have been added</h3>
-                    <p><a href="/states/new">Add a new one</a></p>
-                </div>
-            {{/if}}
         {{/block}}
 
     </div>
@@ -43,7 +28,6 @@
 {{#block "footer"}}
     <footer class="footer">
         <div class="container">
-            <p class="text-muted"><a href="/posts/delete">DELETE ALL STATES</a></p>
         </div>
     </footer>
     </body>

@@ -1,21 +1,20 @@
 package dao;
 
-import models.Post;
+import models.Team;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public interface TeamDao {
 
   //create
-  void add (Post post);
+  void add (Team post);
   //read
-  List<Post> getAll();
+  List<Team> getAll();
 
-  List<Post> getAllTeamsByState(int stateId);
+  List<Team> getAllTeamsByState(int stateId);
 
-  Post findById(int id);
+  Team findById(int id);
   //update
   void update(int id, String team, String members);
   //delete

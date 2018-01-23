@@ -1,10 +1,10 @@
 package dao;
 
-import models.Post;
+import models.Team;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class Sql2oTeamDao implements TeamDao { //implementing our interface
@@ -16,7 +16,7 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
   }
 
   @Override
-  public void add(Post team) {
+  public void add(Team team) {
     String sql = "INSERT INTO team (team, members, password, stateId) VALUES (:team, :members, :password, :stateId)"; //raw sql
     try(Connection con = sql2o.open()){ //try to open a connection
       int id = (int) con.createQuery(sql) //make a new variable
@@ -30,28 +30,28 @@ public class Sql2oTeamDao implements TeamDao { //implementing our interface
   }
 
   @Override
-  public List<Post> getAll() {
+  public List<Team> getAll() {
     try(Connection con = sql2o.open()){
       return con.createQuery("SELECT * FROM team") //raw sql
-              .executeAndFetch(Post.class); //fetch a list
+              .executeAndFetch(Team.class); //fetch a list
     }
   }
 
   @Override
-  public List<Post> getAllTeamsByState(int stateId) {
+  public List<Team> getAllTeamsByState(int stateId) {
     try(Connection con = sql2o.open()){
       return con.createQuery("SELECT * FROM team WHERE stateId = :stateId")
               .addParameter("stateId", stateId)
-              .executeAndFetch(Post.class);
+              .executeAndFetch(Team.class);
     }
   }
 
   @Override
-  public Post findById(int id) {
+  public Team findById(int id) {
     try(Connection con = sql2o.open()){
       return con.createQuery("SELECT * FROM team WHERE id = :id")
               .addParameter("id", id) //key/value pair, key must match above
-              .executeAndFetchFirst(Post.class); //fetch an individual item
+              .executeAndFetchFirst(Team.class); //fetch an individual item
     }
   }
 

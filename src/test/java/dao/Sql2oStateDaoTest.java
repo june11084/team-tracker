@@ -1,7 +1,7 @@
 package dao;
 
 import models.State;
-import models.Post;
+import models.Team;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,11 +65,11 @@ public class Sql2oStateDaoTest {
 
   @Test
   public void updateChangesStateContent() {
-    String initialDescription = "Yardwork";
+    String initialDescription = "ct";
     State state = new State (initialDescription);
     stateDao.add(state);
 
-    stateDao.update(state.getId(),"Cleaning");
+    stateDao.update(state.getId(),"or");
     State updatedState = stateDao.findById(state.getId());
     assertNotEquals(initialDescription, updatedState.getName());
   }
@@ -94,13 +94,13 @@ public class Sql2oStateDaoTest {
   }
 
   @Test
-  public void getAllTasksByStateReturnsTasksCorrectly() {
+  public void getAllTeamsByStateReturnsTeamsCorrectly() {
     State state = setupNewState();
     stateDao.add(state);
     int stateId = state.getId();
-    Post newPost = new Post("team a ", "asdf","asdf",stateId);
-    Post otherPost = new Post("team b ", "asdf","asdf",stateId);
-    Post thirdPost = new Post("team c",  "asdf","asdf",stateId);
+    Team newPost = new Team("team a ", "asdf","asdf",stateId);
+    Team otherPost = new Team("team b ", "asdf","asdf",stateId);
+    Team thirdPost = new Team("team c",  "asdf","asdf",stateId);
     teamDao.add(newPost);
     teamDao.add(otherPost);
 

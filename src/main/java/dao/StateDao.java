@@ -1,7 +1,6 @@
 package dao;
 
 import models.State;
-import models.Post;
 
 import java.util.List;
 

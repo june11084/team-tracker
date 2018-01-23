@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{#block "title"}}Info{{/block}}</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+</head>
+<body>
+<ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="#">Home</a></li>
+    <li role="presentation"><a href="/posts/new">Add a New Team</a></li>
+    <li role="presentation"><a href="/posts/about">About</a></li>
+</ul>
+<div class="container">
+    <!--begin main template-->
+    <div class="page-header">
+        <h1>Welcome to Team Tracker</h1>
+    </div>
+
+    <div class="col-md-12">
+        {{#block "content"}}
+            <h1>About</h1>
+            <a href="https://www.eventbrite.com/e/hack-the-now-next-ai-edition-tickets-41848729677?aff=es2">Check info</a>
+        {{/block}}
+
+    </div>
+</div>

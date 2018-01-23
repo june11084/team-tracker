@@ -2,7 +2,7 @@ import java.util.*;
 
 import dao.Sql2oStateDao;
 import dao.Sql2oTeamDao;
-import models.Post;
+import models.Team;
 import models.State;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
@@ -67,7 +67,7 @@ public class App {
             String team = request.queryParams("team");
             String members = request.queryParams("members");
             String password = request.queryParams("password");
-            Post newPost = new Post(team,members,password, stateId);
+            Team newPost = new Team(team,members,password, stateId);
             teamDao.add(newPost);
             model.put("post", newPost);
             return new ModelAndView(model, "success.hbs");
@@ -111,7 +111,7 @@ public class App {
             State foundState = stateDao.findById(idOfStateToFind);
             model.put("state", foundState);
 
-            List<Post> teams = teamDao.getAllTeamsByState(idOfStateToFind);
+            List<Team> teams = teamDao.getAllTeamsByState(idOfStateToFind);
             model.put("teams", teams);
 
             return new ModelAndView(model, "success.hbs");
@@ -123,7 +123,7 @@ public class App {
             int idOfStateToFind = Integer.parseInt(req.params("stateId")); //pull id - must match route segment
             State foundState = stateDao.findById(idOfStateToFind); //use it to find post
             model.put("state", foundState); //add it to model for template to display
-            List<Post> teams = teamDao.getAllTeamsByState(idOfStateToFind);
+            List<Team> teams = teamDao.getAllTeamsByState(idOfStateToFind);
             model.put("teams", teams);
             return new ModelAndView(model, "state-detail.hbs");
         }, new HandlebarsTemplateEngine());
@@ -132,7 +132,7 @@ public class App {
         get("/posts/:id", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfPostToFind = Integer.parseInt(req.params("id"));
-            Post foundPost = teamDao.findById(idOfPostToFind);
+            Team foundPost = teamDao.findById(idOfPostToFind);
             model.put("post", foundPost);
             return new ModelAndView(model, "post-detail.hbs");
         }, new HandlebarsTemplateEngine());
@@ -144,7 +144,7 @@ public class App {
             State editState = stateDao.findById(idOfStateToEdit);
             model.put("state", editState);
             int idOfPostToEdit = Integer.parseInt(req.params("teamId"));
-            Post editPost = teamDao.findById(idOfPostToEdit);
+            Team editPost = teamDao.findById(idOfPostToEdit);
             model.put("editPost", editPost);
             return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());
@@ -159,7 +159,7 @@ public class App {
             State editState = stateDao.findById(idOfStateToEdit);
             model.put("state", editState);
             int idOfPostToEdit = Integer.parseInt(req.params("teamId"));
-            Post editPost = teamDao.findById(idOfPostToEdit);
+            Team editPost = teamDao.findById(idOfPostToEdit);
             if(password.equals(editPost.getPassWord())) {
                 teamDao.update(idOfPostToEdit,newTeam,newMember);
                 return new ModelAndView(model, "success.hbs");
@@ -168,5 +168,24 @@ public class App {
             }
         }, new HandlebarsTemplateEngine());
 
+        //get: show a form to update a state
+        get("/states/:stateId/update", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfStateToEdit = parseInt(req.params("stateId"));
+            State editState = stateDao.findById(idOfStateToEdit);
+            model.put("editState", editState);
+            return new ModelAndView(model, "state-form.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //post: process a form to update a state
+        post("/states/:stateId/update", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            String newState = req.queryParams("name");
+            int idOfStateToEdit = parseInt(req.params("stateId"));
+            State editState = stateDao.findById(idOfStateToEdit);
+            model.put("state", editState);
+            stateDao.update(idOfStateToEdit,newState);
+                return new ModelAndView(model, "success.hbs");
+        }, new HandlebarsTemplateEngine());
     }
 }

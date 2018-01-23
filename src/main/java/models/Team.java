@@ -1,14 +1,14 @@
 package models;
 import java.util.Objects;
 
-public class Post {
+public class Team {
     private String team;
     private String password;
     private String members;
     private int id;
     private int stateId;
 
-    public Post (String team,String members,String password,int stateId){
+    public Team(String team, String members, String password, int stateId){
         this.team = team;
         this.password = password;
         this.members = members;
@@ -53,7 +53,7 @@ public class Post {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
+        Team post = (Team) o;
         return id == post.id &&
                 stateId == post.stateId &&
                 Objects.equals(team, post.team) &&

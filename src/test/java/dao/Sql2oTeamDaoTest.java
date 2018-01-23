@@ -1,15 +1,11 @@
 package dao;
 
-import models.Post;
+import models.Team;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -37,7 +33,7 @@ public class Sql2oTeamDaoTest {
 
   @Test
   public void addingPostSetsId() throws Exception {
-    Post post = setupNewTask();
+    Team post = setupNewTask();
     int originalPostId = post.getId();
     teamDao.add(post);
     assertNotEquals(originalPostId, post.getId()); //how does this work?
@@ -45,15 +41,15 @@ public class Sql2oTeamDaoTest {
 
   @Test
   public void existingPostCanBeFoundById() throws Exception {
-    Post post = new Post ("team ", "asdf","asdf",1);
+    Team post = new Team("team ", "asdf","asdf",1);
     teamDao.add(post); //add to dao (takes care of saving)
-    Post foundPost = teamDao.findById(post.getId()); //retrieve
+    Team foundPost = teamDao.findById(post.getId()); //retrieve
     assertEquals(post.getId(), foundPost.getId()); //should be the same
   }
 
   @Test
   public void addedPostAreReturnedFromgetAll() throws Exception {
-    Post post = setupNewTask();
+    Team post = setupNewTask();
     teamDao.add(post);
     assertEquals(1, teamDao.getAll().size());
   }
@@ -66,19 +62,19 @@ public class Sql2oTeamDaoTest {
   @Test
   public void updateChangesPostContent() throws Exception {
     String team = "mow the lawn";
-    Post post = new Post (team, "dave","asdf",1);
+    Team post = new Team(team, "dave","asdf",1);
     String members ="john,christine,Lee,adam,dave";
     post.updateMember(members);
     teamDao.add(post);
 
     teamDao.update(post.getId(),"brush the cat", members);
-    Post updatedPost = teamDao.findById(post.getId()); //why do I need to refind this?
+    Team updatedPost = teamDao.findById(post.getId()); //why do I need to refind this?
     assertNotEquals(team, updatedPost.getTeam());
   }
 
   @Test
   public void deleteByIdDeletesCorrectPost() throws Exception {
-    Post post = setupNewTask();
+    Team post = setupNewTask();
     teamDao.add(post);
     teamDao.deleteById(post.getId());
     assertEquals(0, teamDao.getAll().size());
@@ -86,8 +82,8 @@ public class Sql2oTeamDaoTest {
 
   @Test
   public void clearAllClearsAll() throws Exception {
-    Post post = setupNewTask();
-    Post otherTask = new Post("team b", "dave","asdf",1);
+    Team post = setupNewTask();
+    Team otherTask = new Team("team b", "dave","asdf",1);
     teamDao.add(post);
     teamDao.add(otherTask);
     int daoSize = teamDao.getAll().size();
@@ -97,15 +93,15 @@ public class Sql2oTeamDaoTest {
 
   @Test
   public void StateIdIsReturnedCorrectly() throws Exception {
-    Post post = setupNewTask();
+    Team post = setupNewTask();
     int originalStateId = post.getStateId();
     teamDao.add(post);
     assertEquals(originalStateId, teamDao.findById(post.getId()).getStateId());
   }
 
 
-  public Post setupNewTask(){
-    return new Post("team b","","asdf",1);
+  public Team setupNewTask(){
+    return new Team("team b","","asdf",1);
   }
 
 }
