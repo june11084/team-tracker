@@ -105,7 +105,7 @@ public class Sql2oTeamDaoTest {
 
 
   public Post setupNewTask(){
-    return new Post("team b","dave","asdf",1);
+    return new Post("team b","","asdf",1);
   }
 
 }

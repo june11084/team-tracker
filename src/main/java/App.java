@@ -8,6 +8,8 @@ import models.State;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
+
+import static java.lang.Integer.parseInt;
 import static spark.Spark.*;
 
 public class App {
@@ -51,6 +53,9 @@ public class App {
         //get: show new team form
         get("/states/:stateId/posts/new", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
+            int idOfTeam = parseInt(req.params("stateId"));
+            State foundState = stateDao.findById(idOfTeam);
+            model.put("state", foundState);
             return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -62,7 +67,7 @@ public class App {
             model.put("state",state);
             String team = request.queryParams("team");
             String members = request.queryParams("members");
-            String password = request.queryParams("password");;
+            String password = request.queryParams("password");
             Post newPost = new Post(team,members,password, stateId);
             teamDao.add(newPost);
             model.put("post", newPost);
@@ -82,6 +87,17 @@ public class App {
             Map<String, Object> model = new HashMap<>();
             teamDao.clearAllPosts();
             return new ModelAndView(model, "success.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //get: show an individual state in detail
+        get("/states/:stateId", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfStateToFind = Integer.parseInt(req.params("stateId")); //pull id - must match route segment
+            State foundState = stateDao.findById(idOfStateToFind); //use it to find post
+            model.put("state", foundState); //add it to model for template to display
+            List<Post> teams = teamDao.getAllTeamsByState(idOfStateToFind);
+            model.put("teams", teams);
+            return new ModelAndView(model, "state-detail.hbs"); //individual post page.
         }, new HandlebarsTemplateEngine());
 
         //get: show an individual team in detail

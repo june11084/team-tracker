@@ -13,6 +13,8 @@ public interface TeamDao {
   //read
   List<Post> getAll();
 
+  List<Post> getAllTeamsByState(int stateId);
+
   Post findById(int id);
   //update
   void update(int id, String team, String members, String password, int stateId);

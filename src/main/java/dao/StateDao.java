@@ -12,7 +12,6 @@ public interface StateDao {
 
   //read
   List<State> getAll();
-  List<Post> getAllTeamsByState(int stateId);
 
   State findById(int id);
 

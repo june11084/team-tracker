@@ -84,13 +84,5 @@ public class Sql2oStateDao implements StateDao {
     }
   }
 
-  @Override
-  public List<Post> getAllTeamsByState(int stateId) {
-    try(Connection con = sql2o.open()){
-      return con.createQuery("SELECT * FROM team WHERE stateId = :stateId")
-              .addParameter("stateId", stateId)
-              .executeAndFetch(Post.class);
-    }
-  }
 }
 
